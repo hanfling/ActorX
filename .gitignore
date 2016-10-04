@@ -1,3 +1,9 @@
 obj/
 out/
 SDK/
+
+# Visual Studio.
+*.suo
+*.sdf
+*.opensdf
+*.vcxproj.user
