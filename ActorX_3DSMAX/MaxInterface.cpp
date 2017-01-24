@@ -1143,6 +1143,7 @@ static INT_PTR CALLBACK VertexDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 
 			_SetCheckBox( hWnd, IDC_CHECKAPPENDVERTEX, OurScene.DoAppendVertex );
 			_SetCheckBox( hWnd, IDC_CHECKFIXEDSCALE,   OurScene.DoScaleVertex );
+			_SetCheckBox( hWnd, IDC_CHECKDEUSEXVERTEX, OurScene.DoDeusExVertex );
 
 			if ( OurScene.DoScaleVertex && (OurScene.VertexExportScale != 0.f) )
 			{
@@ -1285,7 +1286,12 @@ static INT_PTR CALLBACK VertexDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 				}
 				break;
 
-
+				case IDC_CHECKDEUSEXVERTEX:
+				{
+					OurScene.DoDeusExVertex = _GetCheckBox(hWnd,IDC_CHECKDEUSEXVERTEX);
+					PluginReg.SetKeyValue(_T("DODEUSEXVERTEX"), OurScene.DoDeusExVertex);
+				}
+				break;
 			};
 			break;
 
@@ -2770,6 +2776,7 @@ int SceneIFC::WriteVertexAnims(VActor *Thing, TCHAR* DestFileName, TCHAR* RangeS
 
 	TArray<VertexMeshTri> VAFaces;
 	TArray<FMeshVert> VAVerts;
+	TArray<FDeusExMeshVert> VADeusExVerts;
 	TArray<FVector> VARawVerts;
 
 	// Get 'reference' triangles; write the _d.3d file. Scene time of sampling here unimportant.
@@ -2902,12 +2909,41 @@ int SceneIFC::WriteVertexAnims(VActor *Thing, TCHAR* DestFileName, TCHAR* RangeS
 		}
 
 		VAVerts.Empty();
+		VADeusExVerts.Empty();
+
+		// Scale all axis for Deus Ex.
+		if ( OurScene.DoDeusExVertex )
+		{
+			for( INT v=0; v<VARawVerts.Num(); v++)
+			{
+				VARawVerts[v] *= 32.f;
+			}
+		}
+		// Scale Z Axis for Unreal? Not sure if this is a good idea. --han
+		else
+		{
+			for( INT v=0; v<VARawVerts.Num(); v++)
+			{
+				VARawVerts[v].Z /= 2.f;
+			}
+		}
 
 		// Convert.
-		for( INT v=0; v<VARawVerts.Num(); v++)
+		if ( OurScene.DoDeusExVertex )
 		{
-			FMeshVert VANew( VARawVerts[v]);
-			VAVerts.AddItem( VANew );
+			for( INT v=0; v<VARawVerts.Num(); v++)
+			{
+				FDeusExMeshVert VANew( VARawVerts[v]);
+				VADeusExVerts.AddItem( VANew );
+			}
+		}
+		else
+		{
+			for( INT v=0; v<VARawVerts.Num(); v++)
+			{
+				FMeshVert VANew( VARawVerts[v]);
+				VAVerts.AddItem( VANew );
+			}
 		}
 
 		//
@@ -2943,7 +2979,8 @@ int SceneIFC::WriteVertexAnims(VActor *Thing, TCHAR* DestFileName, TCHAR* RangeS
 
 		if( ! FileError )
 		{
-			AnimHeader.FrameSize = ( WORD )( RefSkinPoints * sizeof( DWORD ) );
+			//AnimHeader.FrameSize = ( WORD )( RefSkinPoints * sizeof( DWORD ) );
+			AnimHeader.FrameSize = OurScene.DoDeusExVertex ? (WORD)(RefSkinPoints*sizeof(FDeusExMeshVert)) : (WORD)(RefSkinPoints*sizeof(FMeshVert));
 			AnimHeader.NumFrames = FrameCount;
 
 			// Write header if we're not appending.
@@ -2975,11 +3012,21 @@ int SceneIFC::WriteVertexAnims(VActor *Thing, TCHAR* DestFileName, TCHAR* RangeS
 			}
 
 			// Write animated vertex data (all frames, all verts).
-			for( INT f=0; f< VAVerts.Num(); f++)
+			if ( OurScene.DoDeusExVertex )
 			{
-				OutFile.Write( &(VAVerts[f]), sizeof(FMeshVert));
+				for( INT f=0; f< VADeusExVerts.Num(); f++)
+				{
+					OutFile.Write( &(VADeusExVerts[f]), sizeof(FDeusExMeshVert));
+				}
 			}
-
+			else
+			{
+				for( INT f=0; f< VAVerts.Num(); f++)
+				{
+					OutFile.Write( &(VAVerts[f]), sizeof(FMeshVert));
+				}
+			}
+			
 			OutFile.CloseFlush();
 
 			if( OutFile.GetError()) ErrorBox(_T("Vertex anim save error."));

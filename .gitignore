@@ -1,9 +1,13 @@
 obj/
 out/
 SDK/
+ActorX_3DSMAX/x64/
+ActorX_MAYA/x64/
 
 # Visual Studio.
 *.suo
 *.sdf
 *.opensdf
 *.vcxproj.user
+*.aps
+

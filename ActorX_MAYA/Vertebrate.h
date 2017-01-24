@@ -562,6 +562,25 @@ struct FMeshVert
 		return FVector( X, Y, Z );
 	}
 };
+struct FDeusExMeshVert
+{
+	// Components (INTEL byte order assumed.)
+	INT X:16; INT Y:16; INT Z:16; INT PAD:16;
+
+	// Constructor.
+	FDeusExMeshVert()
+	{}
+
+	FDeusExMeshVert( const FVector& In )
+	: X((INT)In.X), Y((INT)In.Y), Z((INT)In.Z)
+	{}
+
+	// Functions.
+	FVector Vector() const
+	{
+		return FVector( X, Y, Z );
+	}
+};
 
 //
 // The internal animation class, which can contain various amounts of

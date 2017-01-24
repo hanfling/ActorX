@@ -225,6 +225,7 @@ public:
 	UBOOL   DoSmooth, DoSingleTex;
 
 	UBOOL   DoAppendVertex, DoScaleVertex;
+	UBOOL   DoDeusExVertex;
 
 	UBOOL	DoSuppressAnimPopups;
 	UBOOL   DoForceRate;

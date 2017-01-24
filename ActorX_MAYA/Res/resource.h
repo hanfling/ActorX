@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by ActorX.rc
+// Von Microsoft Visual C++ generierte Includedatei.
+// Verwendet durch ActorX.rc
 //
 #define IDS_LIBDESCRIPTION              1
 #define IDS_CATEGORY                    2
@@ -114,6 +114,7 @@
 #define IDC_CHECKSCRIPTOUT              1110
 #define IDC_CHECKNOLOG                  1111
 #define IDC_CHECKASCIIOUT               1112
+#define IDC_CHECKDEUSEXVERTEX           1112
 #define IDC_EDITSTARTBONE               1113
 #define IDC_LISTTEST                    1116
 #define IDC_VERTEXOUT                   1118
@@ -163,6 +164,7 @@
 #define IDC_EDITFIXEDSCALE              1185
 #define IDC_CHECKFIXEDSCALE             1186
 #define IDC_CHECKAPPENDVERTEX           1187
+#define IDC_CHECKAPPENDVERTEX2          1188
 #define IDC_CHECKUNDERSCORE             1190
 #define IDC_CHECKUNTEXTURED             1191
 #define IDC_CHECKSELECTEDSTATIC         1191
@@ -187,9 +189,10 @@
 #define IDC_SPIN                        1496
 #define IDC_SPIN_A                      1496
 #define IDC_SPIN_ACOMP                  1497
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        134
@@ -198,5 +201,3 @@
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
-
-#define IDC_STATIC						(-1)

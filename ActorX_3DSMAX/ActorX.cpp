@@ -173,7 +173,7 @@ void ResetPlugin()
 		PluginReg.GetKeyValue(_T("DOTANGENTS"),OurScene.DoTangents);
 		PluginReg.GetKeyValue(_T("DOAPPENDVERTEX"),OurScene.DoAppendVertex);
 		PluginReg.GetKeyValue(_T("DOSCALEVERTEX"),OurScene.DoScaleVertex);
-
+		PluginReg.GetKeyValue(_T("DODEUSEXVERTEX"),OurScene.DoDeusExVertex);
 	}
 
 	INT SwitchPersistPaths;

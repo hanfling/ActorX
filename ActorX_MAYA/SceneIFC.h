@@ -506,6 +506,7 @@ public:
 	UBOOL   DoForceRate;
 
 	UBOOL   DoAppendVertex, DoScaleVertex, DoReplaceUnderscores;
+	UBOOL   DoDeusExVertex;
 
 	FLOAT   PersistentRate;
 	FLOAT   VertexExportScale;
