@@ -493,53 +493,6 @@ public:
 	{
 		FMatrix	Result;
 
-#if defined(__MWERKS__) && defined(__PSX2_EE__)
-		asm (
-		"lqc2 vf4, 0x00(%0)\n"
-		"lqc2 vf5, 0x10(%0)\n"
-		"lqc2 vf6, 0x20(%0)\n"
-		"lqc2 vf7, 0x30(%0)\n"
-
-		"lqc2 vf8, 0x00(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf8\n"
-		"vmadday.xyzw ACC, vf5, vf8\n"
-		"vmaddaz.xyzw ACC, vf6, vf8\n"
-		"vmaddw.xyzw vf8, vf7, vf8\n"
-
-		"sqc2 vf8, 0x00(%2)\n"
-
-		"lqc2 vf10, 0x10(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf10\n"
-		"vmadday.xyzw ACC, vf5, vf10\n"
-		"vmaddaz.xyzw ACC, vf6, vf10\n"
-		"vmaddw.xyzw vf10, vf7, vf10\n"
-
-		"sqc2 vf10, 0x10(%2)\n"
-
-		"lqc2 vf9, 0x20(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf9\n"
-		"vmadday.xyzw ACC, vf5, vf9\n"
-		"vmaddaz.xyzw ACC, vf6, vf9\n"
-		"vmaddw.xyzw vf9, vf7, vf9\n"
-
-		"sqc2 vf9, 0x20(%2)\n"
-
-		"lqc2 vf11, 0x30(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf11\n"
-		"vmadday.xyzw ACC, vf5, vf11\n"
-		"vmaddaz.xyzw ACC, vf6, vf11\n"
-		"vmaddw.xyzw vf11, vf7, vf11\n"
-
-		"sqc2 vf11, 0x30(%2)\n"
-
-		: : "r" (&Other.M[0][0]) , "r" (&M[0][0]), "r" (&Result.M[0][0]) : "memory");
-
-#else
-
 		Result.M[0][0] = M[0][0] * Other.M[0][0] + M[0][1] * Other.M[1][0] + M[0][2] * Other.M[2][0] + M[0][3] * Other.M[3][0];
 		Result.M[0][1] = M[0][0] * Other.M[0][1] + M[0][1] * Other.M[1][1] + M[0][2] * Other.M[2][1] + M[0][3] * Other.M[3][1];
 		Result.M[0][2] = M[0][0] * Other.M[0][2] + M[0][1] * Other.M[1][2] + M[0][2] * Other.M[2][2] + M[0][3] * Other.M[3][2];
@@ -560,61 +513,11 @@ public:
 		Result.M[3][2] = M[3][0] * Other.M[0][2] + M[3][1] * Other.M[1][2] + M[3][2] * Other.M[2][2] + M[3][3] * Other.M[3][2];
 		Result.M[3][3] = M[3][0] * Other.M[0][3] + M[3][1] * Other.M[1][3] + M[3][2] * Other.M[2][3] + M[3][3] * Other.M[3][3];
 
-#endif
-
 		return Result;
 	}
 
 	FORCEINLINE void operator*=(FMatrix Other)
 	{
-
-#if defined(__MWERKS__) && defined(__PSX2_EE__)
-		asm (
-		"lqc2 vf4, 0x00(%0)\n"
-		"lqc2 vf5, 0x10(%0)\n"
-		"lqc2 vf6, 0x20(%0)\n"
-		"lqc2 vf7, 0x30(%0)\n"
-
-		"lqc2 vf8, 0x00(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf8\n"
-		"vmadday.xyzw ACC, vf5, vf8\n"
-		"vmaddaz.xyzw ACC, vf6, vf8\n"
-		"vmaddw.xyzw vf8, vf7, vf8\n"
-
-		"sqc2 vf8, 0x00(%1)\n"
-
-		"lqc2 vf10, 0x10(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf10\n"
-		"vmadday.xyzw ACC, vf5, vf10\n"
-		"vmaddaz.xyzw ACC, vf6, vf10\n"
-		"vmaddw.xyzw vf10, vf7, vf10\n"
-
-		"sqc2 vf10, 0x10(%1)\n"
-
-		"lqc2 vf9, 0x20(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf9\n"
-		"vmadday.xyzw ACC, vf5, vf9\n"
-		"vmaddaz.xyzw ACC, vf6, vf9\n"
-		"vmaddw.xyzw vf9, vf7, vf9\n"
-
-		"sqc2 vf9, 0x20(%1)\n"
-
-		"lqc2 vf11, 0x30(%1)\n"
-
-		"vmulax.xyzw ACC, vf4, vf11\n"
-		"vmadday.xyzw ACC, vf5, vf11\n"
-		"vmaddaz.xyzw ACC, vf6, vf11\n"
-		"vmaddw.xyzw vf11, vf7, vf11\n"
-
-		"sqc2 vf11, 0x30(%1)\n"
-
-		: : "r" (&Other.M[0][0]) , "r" (&M[0][0]) );
-
-#else //__PSX2_EE__
-
 		FMatrix Result;
 		Result.M[0][0] = M[0][0] * Other.M[0][0] + M[0][1] * Other.M[1][0] + M[0][2] * Other.M[2][0] + M[0][3] * Other.M[3][0];
 		Result.M[0][1] = M[0][0] * Other.M[0][1] + M[0][1] * Other.M[1][1] + M[0][2] * Other.M[2][1] + M[0][3] * Other.M[3][1];
@@ -636,8 +539,6 @@ public:
 		Result.M[3][2] = M[3][0] * Other.M[0][2] + M[3][1] * Other.M[1][2] + M[3][2] * Other.M[2][2] + M[3][3] * Other.M[3][2];
 		Result.M[3][3] = M[3][0] * Other.M[0][3] + M[3][1] * Other.M[1][3] + M[3][2] * Other.M[2][3] + M[3][3] * Other.M[3][3];
 		*this = Result;
-
-#endif //__PSX2_EE__
 	}
 
 	// Comparison operators.
@@ -663,82 +564,10 @@ public:
 	{
 		FPlane Result;
 
-#if ASM && !_DEBUG
-		__asm
-		{
-			// Setup.
-
-			mov esi, P
-			mov edx, [this]
-			lea edi, Result
-
-			fld dword ptr [esi + 0]		//	X
-			fmul dword ptr [edx + 0]	//	Xx
-			fld dword ptr [esi + 0]		//	X		Xx
-			fmul dword ptr [edx + 4]	//	Xy		Xx
-			fld dword ptr [esi + 0]		//	X		Xy		Xx
-			fmul dword ptr [edx + 8]	//	Xz		Xy		Xx
-			fld dword ptr [esi + 0]		//	X		Xz		Xy		Xx
-			fmul dword ptr [edx + 12]	//	Xw		Xz		Xy		Xx
-
-			fld dword ptr [esi + 4]		//	Y		Xw		Xz		Xy		Xx
-			fmul dword ptr [edx + 16]	//	Yx		Xw		Xz		Xy		Xx
-			fld dword ptr [esi + 4]		//	Y		Yx		Xw		Xz		Xy		Xx
-			fmul dword ptr [edx + 20]	//	Yy		Yx		Xw		Xz		Xy		Xx
-			fld dword ptr [esi + 4]		//	Y		Yy		Yx		Xw		Xz		Xy		Xx
-			fmul dword ptr [edx + 24]	//	Yz		Yy		Yx		Xw		Xz		Xy		Xx
-			fld dword ptr [esi + 4]		//	Y		Yz		Yy		Yx		Xw		Xz		Xy		Xx
-			fmul dword ptr [edx + 28]	//	Yw		Yz		Yy		Yx		Xw		Xz		Xy		Xx
-
-			fxch st(3)					//	Yx		Yz		Yy		Yw		Xw		Xz		Xy		Xx
-			faddp st(7), st(0)			//	Yz		Yy		Yw		Xw		Xz		Xy		XYx
-			faddp st(4), st(0)			//	Yy		Yw		Xw		XYz		Xy		XYx
-			faddp st(4), st(0)			//	Yw		Xw		XYz		XYy		XYx
-			faddp st(1), st(0)			//	XYw		XYz		XYy		XYx
-
-			fld dword ptr [esi + 8]		//	Z		XYw		XYz		XYy		XYx
-			fmul dword ptr [edx + 32]	//	Zx		XYw		XYz		XYy		XYx
-			fld dword ptr [esi + 8]		//	Z		Zx		XYw		XYz		XYy		XYx
-			fmul dword ptr [edx + 36]	//	Zy		Zx		XYw		XYz		XYy		XYx
-			fld dword ptr [esi + 8]		//	Z		Zy		Zx		XYw		XYz		XYy		XYx
-			fmul dword ptr [edx + 40]	//	Zz		Zy		Zx		XYw		XYz		XYy		XYx
-			fld dword ptr [esi + 8]		//	Z		Zz		Zy		Zx		XYw		XYz		XYy		XYx
-			fmul dword ptr [edx + 44]	//	Zw		Zz		Zy		Zx		XYw		XYz		XYy		XYx
-
-			fxch st(3)					//	Zx		Zz		Zy		Zw		XYw		XYz		XYy		XYx
-			faddp st(7), st(0)			//	Zz		Zy		Zw		XYw		XYz		XYy		XYZx
-			faddp st(4), st(0)			//	Zy		Zw		XYw		XYZz	XYy		XYZx
-			faddp st(4), st(0)			//	Zw		XYw		XYZz	XYZy	XYZx
-			faddp st(1), st(0)			//	XYZw	XYZz	XYZy	XYZx
-
-			fld dword ptr [esi + 12]	//	W		XYZw	XYZz	XYZy	XYZx
-			fmul dword ptr [edx + 48]	//	Wx		XYZw	XYZz	XYZy	XYZx
-			fld dword ptr [esi + 12]	//	W		Wx		XYZw	XYZz	XYZy	XYZx
-			fmul dword ptr [edx + 52]	//	Wy		Wx		XYZw	XYZz	XYZy	XYZx
-			fld dword ptr [esi + 12]	//	W		Wy		Wx		XYZw	XYZz	XYZy	XYZx
-			fmul dword ptr [edx + 56]	//	Wz		Wy		Wx		XYZw	XYZz	XYZy	XYZx
-			fld dword ptr [esi + 12]	//	W		Wz		Wy		Wx		XYZw	XYZz	XYZy	XYZx
-			fmul dword ptr [edx + 60]	//	Ww		Wz		Wy		Wx		XYZw	XYZz	XYZy	XYZx
-
-			fxch st(3)					//	Wx		Wz		Wy		Ww		XYZw	XYZz	XYZy	XYZx
-			faddp st(7), st(0)			//	Wz		Wy		Ww		XYZw	XYZz	XYZy	XYZWx
-			faddp st(4), st(0)			//	Wy		Ww		XYZw	XYZWz	XYZy	XYZWx
-			faddp st(4), st(0)			//	Ww		XYZw	XYZWz	XYZWy	XYZWx
-			faddp st(1), st(0)			//	XYZWw	XYZWz	XYZWy	XYZWx
-
-			fxch st(3)					//	XYZWx	XYZWz	XYZWy	XYZWw
-			fstp dword ptr [edi + 0]	//	XYZWz	XYZWy	XYZWw
-			fxch st(1)					//	XYZWy	XYZWz	XYZWw
-			fstp dword ptr [edi + 4]	//	XYZWz	XYZWw
-			fstp dword ptr [edi + 8]	//	XYZWw
-			fstp dword ptr [edi + 12]
-		}
-#else
 		Result.X = P.X * M[0][0] + P.Y * M[1][0] + P.Z * M[2][0] + P.W * M[3][0];
 		Result.Y = P.X * M[0][1] + P.Y * M[1][1] + P.Z * M[2][1] + P.W * M[3][1];
 		Result.Z = P.X * M[0][2] + P.Y * M[1][2] + P.Z * M[2][2] + P.W * M[3][2];
 		Result.W = P.X * M[0][3] + P.Y * M[1][3] + P.Z * M[2][3] + P.W * M[3][3];
-#endif
 
 		return Result;
 	}
@@ -790,30 +619,6 @@ public:
 
 	inline FLOAT Determinant() const
 	{
-#if defined(__MWERKS__) && defined(__PSX2_EE__)
-	    float a1,a2,a3,a4,b1,b2,b3,b4,c1,c2,c3,c4,d1,d2,d3,d4;
-
-		// Assign to individual variable names to aid selecting
-		// correct elements
-		a1 = M[0][0]; b1 = M[0][1];
-		c1 = M[0][2]; d1 = M[0][3];
-
-		a2 = M[1][0]; b2 = M[1][1];
-		c2 = M[1][2]; d2 = M[1][3];
-
-		a3 = M[2][0]; b3 = M[2][1];
-		c3 = M[2][2]; d3 = M[2][3];
-
-		a4 = M[3][0]; b4 = M[3][1];
-		c4 = M[3][2]; d4 = M[3][3];
-
-	    return Float_Mac4_VU0(
-			a1,  Determinant3_VU0( b2, b3, b4, c2, c3, c4, d2, d3, d4),
-			-b1, Determinant3_VU0( a2, a3, a4, c2, c3, c4, d2, d3, d4),
-			c1,  Determinant3_VU0( a2, a3, a4, b2, b3, b4, d2, d3, d4),
-			-d1, Determinant3_VU0( a2, a3, a4, b2, b3, b4, c2, c3, c4)
-		);
-#else //__PSX2_EE__
 		return	M[0][0] * (
 					M[1][1] * (M[2][2] * M[3][3] - M[2][3] * M[3][2]) -
 					M[2][1] * (M[1][2] * M[3][3] - M[1][3] * M[3][2]) +
@@ -834,80 +639,13 @@ public:
 					M[1][1] * (M[0][2] * M[2][3] - M[0][3] * M[2][2]) +
 					M[2][1] * (M[0][2] * M[1][3] - M[0][3] * M[1][2])
 					);
-#endif
 	}
 
 	// Inverse.
-
-#if defined(__MWERKS__) && defined(__PSX2_EE__)
-	void Adjoint_VU0( FMatrix & matrix )
-	{
-	    float a1, a2, a3, a4, b1, b2, b3, b4;
-	    float c1, c2, c3, c4, d1, d2, d3, d4;
-
-		// Assign to individual variable names to aid
-		// selecting correct values
-		a1 = M[0][0]; b1 = M[0][1];
-		c1 = M[0][2]; d1 = M[0][3];
-
-		a2 = M[1][0]; b2 = M[1][1];
-		c2 = M[1][2]; d2 = M[1][3];
-
-		a3 = M[2][0]; b3 = M[2][1];
-		c3 = M[2][2]; d3 = M[2][3];
-
-		a4 = M[3][0]; b4 = M[3][1];
-		c4 = M[3][2]; d4 = M[3][3];
-
-	    /* row column labeling reversed since we transpose rows & columns */
-	    matrix.M[0][0] =  Determinant3_VU0( b2, b3, b4, c2, c3, c4, d2, d3, d4);
-	    matrix.M[1][0] = -Determinant3_VU0( a2, a3, a4, c2, c3, c4, d2, d3, d4);
-	    matrix.M[2][0] =  Determinant3_VU0( a2, a3, a4, b2, b3, b4, d2, d3, d4);
-	    matrix.M[3][0] = -Determinant3_VU0( a2, a3, a4, b2, b3, b4, c2, c3, c4);
-
-	    matrix.M[0][1] = -Determinant3_VU0( b1, b3, b4, c1, c3, c4, d1, d3, d4);
-	    matrix.M[1][1] =  Determinant3_VU0( a1, a3, a4, c1, c3, c4, d1, d3, d4);
-	    matrix.M[2][1] = -Determinant3_VU0( a1, a3, a4, b1, b3, b4, d1, d3, d4);
-	    matrix.M[3][1] =  Determinant3_VU0( a1, a3, a4, b1, b3, b4, c1, c3, c4);
-
-	    matrix.M[0][2] =  Determinant3_VU0( b1, b2, b4, c1, c2, c4, d1, d2, d4);
-	    matrix.M[1][2] = -Determinant3_VU0( a1, a2, a4, c1, c2, c4, d1, d2, d4);
-	    matrix.M[2][2] =  Determinant3_VU0( a1, a2, a4, b1, b2, b4, d1, d2, d4);
-	    matrix.M[3][2] = -Determinant3_VU0( a1, a2, a4, b1, b2, b4, c1, c2, c4);
-
-	    matrix.M[0][3] = -Determinant3_VU0( b1, b2, b3, c1, c2, c3, d1, d2, d3);
-	    matrix.M[1][3] =  Determinant3_VU0( a1, a2, a3, c1, c2, c3, d1, d2, d3);
-	    matrix.M[2][3] = -Determinant3_VU0( a1, a2, a3, b1, b2, b3, d1, d2, d3);
-	    matrix.M[3][3] =  Determinant3_VU0( a1, a2, a3, b1, b2, b3, c1, c2, c3);
-	}
-#endif //PSX2_EE
 	FMatrix Inverse()
 	{
 		FMatrix Result;
 
-#if defined(__MWERKS__) && defined(__PSX2_EE__)
-		int i, j;
-	    	float det;
-	    	float rdet;
-
-		// Calculate the adjoint tmatrix
-		Adjoint_VU0( Result );
-
-		// Calculate 4x4 determinant
-		// If the determinant is 0,
-		// the inverse is not unique.
-		det = Determinant();
-
-		if( (det < 0.0001) && (det > -0.0001) )
-			return FMatrix::Identity;
-
-		// Scale adjoint matrix to get inverse
-		rdet = Float_Rcp_VU0(det);
-
-	    	for (i=0; i<4; i++)
-	        	for(j=0; j<4; j++)
-				Result.M[i][j] = Result.M[i][j] * rdet;
-#else
 		FLOAT	Det = Determinant();
 
 		if(Det == 0.0f)
@@ -998,7 +736,7 @@ public:
 				M[1][0] * (M[0][1] * M[2][2] - M[0][2] * M[2][1]) +
 				M[2][0] * (M[0][1] * M[1][2] - M[0][2] * M[1][1])
 				);
-#endif
+
 		return Result;
 	}
 
