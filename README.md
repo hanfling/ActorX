@@ -10,7 +10,7 @@ You need to use the included ActorX_VS12.sln Visual Studios olution.
 SDK
 ---
 
-SDK are not distributed for legal reasons. You need to grab them either off Autodesk's side or from the install media.
+SDK are not distributed for legal reasons. You need to grab them either off Autodesk's site or from the install media.
 
 Web resources
 -------------
